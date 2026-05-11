@@ -1,0 +1,89 @@
+# Configuration for regression experiments
+
+# Random seed for reproducibility
+random_state: 42
+
+# Task type: classification or regression
+task_type: regression
+
+# Dataset configuration
+dataset:
+  name: synthetic_regression
+  n_samples: 1000
+  n_features: 20
+  noise: 0.1
+
+# Data splitting configuration
+data_split:
+  test_size: 0.2
+  val_size: 0.2
+
+# Data preprocessing configuration
+preprocessing:
+  scaling: standard
+
+# Baseline models configuration
+baselines:
+  enabled: true
+  models:
+    - ridge
+    - lasso
+    - decision_tree
+    - knn
+    - svr
+    - random_forest
+    - extra_trees
+    - gradient_boosting
+    - adaboost
+
+# Ensemble methods configuration
+ensembles:
+  voting:
+    enabled: true
+    voting_type: hard
+    weights: null
+  
+  stacking:
+    enabled: true
+    cv: 5
+    meta_estimator: null
+  
+  bagging:
+    enabled: true
+    n_estimators: 10
+    max_samples: 1.0
+    max_features: 1.0
+  
+  dynamic_selection:
+    enabled: true
+    selection_method: best
+    k: 5
+  
+  meta_learning:
+    enabled: true
+    feature_extraction: predictions
+
+# Evaluation configuration
+evaluation:
+  primary_metric: r2
+  metrics:
+    regression:
+      - r2
+      - mse
+      - rmse
+      - mae
+      - mape
+      - smape
+
+# Logging configuration
+logging:
+  level: INFO
+  format: "{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}"
+  file: logs/experiment.log
+
+# Output configuration
+output:
+  save_results: true
+  results_dir: results/
+  save_models: false
+  models_dir: models/

@@ -1,0 +1,96 @@
+# Default configuration for ensemble learning experiments
+
+# Random seed for reproducibility
+random_state: 42
+
+# Task type: classification or regression
+task_type: classification
+
+# Dataset configuration
+dataset:
+  name: breast_cancer  # Options: breast_cancer, digits, iris, wine, synthetic_classification, synthetic_regression
+  n_samples: 1000  # For synthetic datasets
+  n_features: 20   # For synthetic datasets
+  n_classes: 2     # For synthetic classification
+  noise: 0.1       # For synthetic datasets
+
+# Data splitting configuration
+data_split:
+  test_size: 0.2
+  val_size: 0.2
+
+# Data preprocessing configuration
+preprocessing:
+  scaling: standard  # Options: standard, minmax, robust, none
+
+# Baseline models configuration
+baselines:
+  enabled: true
+  models:
+    - logistic_regression
+    - decision_tree
+    - knn
+    - svm
+    - random_forest
+    - extra_trees
+    - gradient_boosting
+    - adaboost
+
+# Ensemble methods configuration
+ensembles:
+  voting:
+    enabled: true
+    voting_type: hard  # Options: hard, soft
+    weights: null  # Optional weights for models
+  
+  stacking:
+    enabled: true
+    cv: 5
+    meta_estimator: null  # Use default
+  
+  bagging:
+    enabled: true
+    n_estimators: 10
+    max_samples: 1.0
+    max_features: 1.0
+  
+  dynamic_selection:
+    enabled: true
+    selection_method: best  # Options: best, k_best, local_accuracy
+    k: 5
+  
+  meta_learning:
+    enabled: true
+    feature_extraction: predictions  # Options: predictions, probabilities
+
+# Evaluation configuration
+evaluation:
+  primary_metric: accuracy  # For classification: accuracy, f1, precision, recall, roc_auc
+                           # For regression: r2, mse, rmse, mae, mape, smape
+  metrics:
+    classification:
+      - accuracy
+      - precision
+      - recall
+      - f1
+      - roc_auc
+    regression:
+      - r2
+      - mse
+      - rmse
+      - mae
+      - mape
+      - smape
+
+# Logging configuration
+logging:
+  level: INFO
+  format: "{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}"
+  file: logs/experiment.log
+
+# Output configuration
+output:
+  save_results: true
+  results_dir: results/
+  save_models: false
+  models_dir: models/
